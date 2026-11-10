@@ -16,12 +16,9 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
-/**
- * Controller responsável por expor os endpoints REST de /chamados.
- *
- * Os dados ficam em memória (coleção Java), sem JPA/banco de dados. O
- * identificador é gerado de forma sequencial e única por um AtomicLong.
- */
+
+// Controller responsável por expor os endpoints REST de /chamados.
+
 @RestController
 @RequestMapping("/chamados")
 public class ChamadoController {
@@ -30,7 +27,7 @@ public class ChamadoController {
     private final AtomicLong contador = new AtomicLong(0L);
 
     public ChamadoController() {
-        // 10 chamados fictícios distribuídos entre setores, prioridades e status.
+        // Chamados
         adicionar(1L, "Computador não liga", "João Silva", "TI", Prioridade.ALTA, Status.ABERTO);
         adicionar(2L, "Impressora sem toner", "Maria Souza", "Financeiro", Prioridade.MEDIA, Status.ABERTO);
         adicionar(3L, "Rede wifi instável", "Pedro Santos", "TI", Prioridade.ALTA, Status.EM_ANDAMENTO);
@@ -42,7 +39,7 @@ public class ChamadoController {
         adicionar(9L, "Reset de senha do ERP", "Marcos Oliveira", "Vendas", Prioridade.ALTA, Status.RESOLVIDO);
         adicionar(10L, "Instalação de impressora nova", "Beatriz Mendes", "RH", Prioridade.BAIXA, Status.EM_ANDAMENTO);
 
-        contador.set(chamados.size()); // próximo id será 11
+        contador.set(chamados.size());
     }
 
     private void adicionar(Long id, String titulo, String solicitante, String setor,
@@ -50,13 +47,13 @@ public class ChamadoController {
         chamados.add(new Chamado(id, titulo, solicitante, setor, prioridade, status));
     }
 
-    // GET /chamados — lista todos os chamados
+    // GET /chamados
     @GetMapping
     public List<Chamado> listar() {
         return new ArrayList<>(chamados);
     }
 
-    // GET /chamados/{id} — consulta um chamado específico
+    // GET /chamados/{id}
     @GetMapping("/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
         return chamados.stream()
@@ -67,7 +64,7 @@ public class ChamadoController {
                         .body(Map.of("erro", "Chamado " + id + " não encontrado.")));
     }
 
-    // GET /chamados/setor?nome=financeiro — filtra por setor (sem diferenciar maiúsculas)
+    // GET /chamados/setor?nome=financeiro
     @GetMapping("/setor")
     public List<Chamado> filtrarPorSetor(@RequestParam String nome) {
         String alvo = nome.trim().toLowerCase(Locale.ROOT);
@@ -76,7 +73,7 @@ public class ChamadoController {
                 .collect(Collectors.toList());
     }
 
-    // GET /chamados/prioridade?nivel=alta — filtra por prioridade (sem diferenciar maiúsculas)
+    // GET /chamados/prioridade?nivel=alta
     @GetMapping("/prioridade")
     public ResponseEntity<?> filtrarPorPrioridade(@RequestParam String nivel) {
         Prioridade prioridade;
@@ -92,7 +89,7 @@ public class ChamadoController {
         return ResponseEntity.ok(resultado);
     }
 
-    // GET /chamados/busca?texto=impressora — busca pelo título (sem diferenciar maiúsculas)
+    // GET /chamados/busca?texto=impressora
     @GetMapping("/busca")
     public List<Chamado> buscarPorTitulo(@RequestParam String texto) {
         String alvo = texto.trim().toLowerCase(Locale.ROOT);
@@ -101,7 +98,7 @@ public class ChamadoController {
                 .collect(Collectors.toList());
     }
 
-    // GET /chamados/criticos — alta prioridade e ainda não resolvidos
+    // GET /chamados/criticos
     @GetMapping("/criticos")
     public List<Chamado> criticos() {
         return chamados.stream()
@@ -109,7 +106,7 @@ public class ChamadoController {
                 .collect(Collectors.toList());
     }
 
-    // GET /chamados/resumo — quantidades por status + total
+    // GET /chamados/resumo
     @GetMapping("/resumo")
     public ResumoStatus resumo() {
         int abertos = (int) chamados.stream().filter(c -> c.getStatus() == Status.ABERTO).count();
@@ -118,7 +115,7 @@ public class ChamadoController {
         return new ResumoStatus(abertos, emAndamento, resolvidos, chamados.size());
     }
 
-    // POST /chamados — cadastra um novo chamado e devolve HTTP 201
+    // POST /chamados
     @PostMapping
     public ResponseEntity<?> cadastrar(@RequestBody Chamado novo) {
         if (novo.getTitulo() == null || novo.getTitulo().isBlank()

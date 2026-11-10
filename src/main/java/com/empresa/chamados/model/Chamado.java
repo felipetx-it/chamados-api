@@ -1,12 +1,7 @@
 package com.empresa.chamados.model;
 
-/**
- * Representa um chamado de suporte técnico.
- *
- * Possui um construtor vazio (usado pelo Jackson para converter o JSON de
- * entrada em um objeto Java no POST) e um construtor completo (usado para
- * montar os dados iniciais em memória).
- */
+// Representa um chamado de suporte técnico.
+
 public class Chamado {
 
     private Long id;

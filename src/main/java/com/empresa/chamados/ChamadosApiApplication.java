@@ -5,10 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Classe principal da aplicação.
- *
- * A anotação @SpringBootApplication habilita a configuração automática do
- * Spring Boot, o escaneamento de componentes (@RestController etc.) e o
- * suporte a configurações externas (application.properties).
  */
 @SpringBootApplication
 public class ChamadosApiApplication {
