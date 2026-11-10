@@ -3,6 +3,8 @@
 API REST desenvolvida em **Java 21 + Spring Boot** para gerenciar chamados de suporte técnico
 (computadores, impressoras, redes e contas de acesso). Os dados ficam em memória.
 
+Autor: Felipe Teixeira Cardoso - UFBA
+
 ---
 
 ## 1. Tecnologias
