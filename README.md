@@ -10,10 +10,10 @@ Autor: Felipe Teixeira Cardoso - UFBA
 ## 1. Tecnologias
 
 - **Java 21**
-- **Spring Boot 3.4.1** (`spring-boot-starter-web`)
-- **Maven** (build)
-- **Jackson** (conversão Java ↔ JSON)
-- **Tomcat embutido** (servidor HTTP)
+- **Spring Boot 3.4.1** 
+- **Maven**
+- **Jackson**
+- **Tomcat embutido**
 
 ---
 
